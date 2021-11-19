@@ -1,5 +1,6 @@
 package tn.esprit.springboot.Service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
@@ -11,20 +12,21 @@ import org.springframework.test.context.junit4.SpringRunner;
 import tn.esprit.springboot.Entities.CategorieClient;
 import tn.esprit.springboot.Entities.Client;
 import tn.esprit.springboot.Entities.Profession;
-import tn.esprit.springboot.Interfaces.ClientSerivce;
+import tn.esprit.springboot.Interfaces.ClientService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class ClientServiceImplTest {
     @Autowired
-    ClientSerivce clientSerivce;
-    private static final Logger l =LogManager.getLogger(ClientServiceImplTest.class);
-
+    ClientService clientService;
 
     @Test
     public void addClient() throws ParseException {
@@ -38,13 +40,20 @@ public class ClientServiceImplTest {
         client.setPrenom("Tfifha");
         client.setPassword("123");
         client.setNom("Youssef");
-        clientSerivce.addClient(client);
-        l.info("client ajouté - informations" + client);
+        clientService.addClient(client);
+        log.info("client ajouté - informations" + client);
     }
+
     @Test
     public void retrieveClient() {
-        Client client = clientSerivce.retrieveClient(1L);
+        Client client = clientService.retrieveClient(1L);
         assertNotNull(client.getDateNaissance());
-         l.info("retrieveUser : "+ client);
+        log.info("retrieveUser : " + client);
+    }
+
+    @Test
+    void retrieveAllClientsByDate() throws ParseException {
+        List<Client> clients = clientService.retrieveAllClientsByDate();
+        log.info("retrieved Users " );
     }
 }

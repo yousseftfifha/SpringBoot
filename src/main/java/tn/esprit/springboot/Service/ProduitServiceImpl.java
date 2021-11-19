@@ -3,11 +3,10 @@ package tn.esprit.springboot.Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.springboot.Entities.DetailProduit;
-import tn.esprit.springboot.Entities.Produit;
-import tn.esprit.springboot.Entities.Rayon;
-import tn.esprit.springboot.Entities.Stock;
+import org.springframework.transaction.annotation.Transactional;
+import tn.esprit.springboot.Entities.*;
 import tn.esprit.springboot.Interfaces.ProduitService;
+import tn.esprit.springboot.Repository.FournisseurRepository;
 import tn.esprit.springboot.Repository.ProduitRepository;
 import tn.esprit.springboot.Repository.RayonRepository;
 import tn.esprit.springboot.Repository.StockRepository;
@@ -26,6 +25,8 @@ public class ProduitServiceImpl implements ProduitService {
     RayonRepository rayonRepository;
     @Autowired
     StockRepository stockRepository;
+    @Autowired
+    FournisseurRepository fournisseurRepository;
 
     @Override
     public List<Produit> retrieveAllProduits() {
@@ -36,10 +37,10 @@ public class ProduitServiceImpl implements ProduitService {
         return Produits;
     }
 
-    @Override
+    @Transactional
     public Produit addProduit(Produit p, Long idRayon, Long idStock) {
-        Rayon rayon = rayonRepository.getById(idRayon);
-        Stock stock = stockRepository.getById(idStock);
+        Rayon rayon = rayonRepository.findById(idRayon).orElse(null);
+        Stock stock = stockRepository.findById(idStock).orElse(null);
         p.setRayon(rayon);
         p.setStock(stock);
         DetailProduit detailProduit=p.getDetailProduit();
@@ -52,5 +53,20 @@ public class ProduitServiceImpl implements ProduitService {
         Produit produit = produitRepository.findById(id).orElse(null);
         log.info("produit :" +produit);
         return produit;
+    }
+
+    @Override
+    public void assignProduitToStock(Long idProduit, Long idStock) {
+        Produit produit=produitRepository.findById(idProduit).orElse(null);
+        Stock stock=stockRepository.findById(idStock).orElse(null);
+        produit.setStock(stock);
+        produitRepository.save(produit);
+    }
+
+    @Transactional
+    public void assignFournisseurToProduit(Long fournisseurId, Long produitId) {
+        Produit produit=produitRepository.findById(produitId).orElse(null);
+        Fournisseur fournisseur=fournisseurRepository.findById(fournisseurId).orElse(null);
+        produit.getFournisseurs().add(fournisseur);
     }
 }

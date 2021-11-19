@@ -28,6 +28,19 @@ public class StockServiceImpl implements StockService {
     }
 
     @Override
+    public String retrieveStatusStock() {
+       List<Stock> rupturedStocks= stockRepository.findStockByQteAndQteMin();
+        String msg="";
+        for (Stock stock: rupturedStocks) {
+            msg="Quantité :"+stock.getQte()+" est inferieur a la quantité minimal approuve : "+stock.getQteMin();
+            log.info(msg);
+
+        }
+        return msg;
+    }
+
+
+    @Override
     public Stock addStock(Stock s) {
         return stockRepository.save(s);
     }

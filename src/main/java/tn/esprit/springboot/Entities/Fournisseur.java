@@ -16,7 +16,7 @@ public class Fournisseur implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "idfournisseur")
+    @Column(name = "id_fournisseur")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFournisseur;
 

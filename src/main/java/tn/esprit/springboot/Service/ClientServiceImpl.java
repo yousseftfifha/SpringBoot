@@ -4,16 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.springboot.Entities.Client;
-import tn.esprit.springboot.Interfaces.ClientSerivce;
+import tn.esprit.springboot.Interfaces.ClientService;
 import tn.esprit.springboot.Repository.ClientRepository;
 
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
-public class ClientServiceImpl implements ClientSerivce {
+public class ClientServiceImpl implements ClientService {
 
     @Autowired
     ClientRepository clientRepository;
@@ -21,6 +22,18 @@ public class ClientServiceImpl implements ClientSerivce {
     @Override
     public List<Client> retrieveAllClients() {
         List<Client> clients= (List<Client>) clientRepository.findAll();
+        for (Client client: clients) {
+            log.info("Client :" + client);
+        }
+        return clients;
+    }
+
+    @Override
+    public List<Client> retrieveAllClientsByDate() throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dates = dateFormat.parse("2015-03-20");
+        Date datef = dateFormat.parse("2015-04-25");
+        List<Client> clients= (List<Client>) clientRepository.findAllByDateNaissanceBetween(datef,dates);
         for (Client client: clients) {
             log.info("Client :" + client);
         }

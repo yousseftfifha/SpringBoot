@@ -1,5 +1,7 @@
 package tn.esprit.springboot.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,10 +10,8 @@ import java.util.Date;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Entity
 public class DetailProduit implements Serializable {
 
@@ -29,7 +29,10 @@ public class DetailProduit implements Serializable {
     @Enumerated(EnumType.STRING)
     private CategorieProduit categorieProduit;
 
-    @OneToOne(mappedBy = "detailProduit")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    @ToString.Exclude
+    @JsonBackReference(value = "product-detail")
     private Produit produit;
 
 

@@ -2,12 +2,15 @@ package tn.esprit.springboot.Interfaces;
 
 import tn.esprit.springboot.Entities.Client;
 
+import java.text.ParseException;
 import java.util.List;
 
 
-public interface ClientSerivce {
+public interface ClientService {
 
     List<Client> retrieveAllClients();
+
+    List<Client> retrieveAllClientsByDate() throws ParseException;
 
     Client addClient(Client c);
 

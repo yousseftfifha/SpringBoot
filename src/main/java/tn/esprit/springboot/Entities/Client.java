@@ -2,10 +2,12 @@ package tn.esprit.springboot.Entities;
 
 
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -13,15 +15,15 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode
 @Entity
 public class Client implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "idclient")
+    @Column(name = "id_client")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idClient;
+
 
     private String nom;
 
@@ -43,4 +45,16 @@ public class Client implements Serializable {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "client",fetch = FetchType.EAGER)
     private Set<Facture> factures;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Client client = (Client) o;
+        return idClient != null && Objects.equals(idClient, client.idClient);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

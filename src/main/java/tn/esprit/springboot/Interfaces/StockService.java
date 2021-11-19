@@ -9,6 +9,9 @@ public interface StockService {
 
     List<Stock> retrieveAllStocks();
 
+
+    String retrieveStatusStock();
+
     Stock addStock(Stock s);
 
     Stock updateStock(Stock u);
@@ -16,4 +19,6 @@ public interface StockService {
     Stock retrieveStock(Long id);
 
     void deleteStock(Long id);
+
+
 }

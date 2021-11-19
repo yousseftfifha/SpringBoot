@@ -1,9 +1,12 @@
 package tn.esprit.springboot.Entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -11,13 +14,12 @@ import java.util.Set;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @Entity
 public class Rayon implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "idrayon")
+    @Column(name = "id_rayon")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRayon;
 
@@ -25,7 +27,24 @@ public class Rayon implements Serializable {
 
     private String libelle;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "rayon")
+    @OneToMany(
+            mappedBy = "rayon",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JsonManagedReference(value = "product_rayon")
     private Set<Produit> produits;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Rayon rayon = (Rayon) o;
+        return idRayon != null && Objects.equals(idRayon, rayon.idRayon);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

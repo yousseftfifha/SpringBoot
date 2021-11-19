@@ -1,5 +1,6 @@
 package tn.esprit.springboot.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ public class Facture implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "idfacture")
+    @Column(name = "id_facture")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFacture;
 
@@ -35,5 +36,6 @@ public class Facture implements Serializable {
     private Set<DetailFacture> detailFactures;
 
     @ManyToOne
+    @JsonIgnore
     private Client client;
 }

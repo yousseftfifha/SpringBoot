@@ -3,8 +3,10 @@ package tn.esprit.springboot.Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tn.esprit.springboot.Entities.Client;
 import tn.esprit.springboot.Entities.Facture;
 import tn.esprit.springboot.Interfaces.FactureService;
+import tn.esprit.springboot.Repository.ClientRepository;
 import tn.esprit.springboot.Repository.FactureRepository;
 
 
@@ -17,7 +19,8 @@ import java.util.Optional;
 public class FactureServiceImpl implements FactureService {
     @Autowired
     FactureRepository factureRepository;
-
+    @Autowired
+    ClientRepository clientRepository;
     @Override
     public List<Facture> retrieveAllFactures() {
         List<Facture> factures= (List<Facture>) factureRepository.findAll();
@@ -37,5 +40,11 @@ public class FactureServiceImpl implements FactureService {
     public Facture retrieveFacture(Long id) {
         Optional<Facture> optionalFacture = factureRepository.findById(id);
         return optionalFacture.orElse(null);
+    }
+
+    @Override
+    public List<Facture> getFacturesByClient(Long idClient) {
+        Client client=clientRepository.findById(idClient).orElse(null);
+        return factureRepository.getFactureByClient(client);
     }
 }
