@@ -5379,3 +5379,6 @@ java.lang.StackOverflowError: null
 2021-11-19 15:37:25.134  INFO 6960 --- [scheduling-1] t.e.springboot.Service.StockServiceImpl  : Quantité :1 est inferieur a la quantité minimal approuve : 2
 2021-11-19 15:37:25.134  INFO 6960 --- [scheduling-1] t.e.springboot.Service.StockServiceImpl  : Quantité :3 est inferieur a la quantité minimal approuve : 5
 2021-11-19 15:37:35.141  INFO 6960 --- [scheduling-1] t.e.springboot.Service.StockServiceImpl  : Quantité :1 est inferieur a la quantité minimal approuve : 2
+2021-11-19 15:37:35.141  INFO 6960 --- [scheduling-1] t.e.springboot.Service.StockServiceImpl  : Quantité :3 est inferieur a la quantité minimal approuve : 5
+2021-11-19 15:37:45.136  INFO 6960 --- [scheduling-1] t.e.springboot.Service.StockServiceImpl  : Quantité :1 est inferieur a la quantité minimal approuve : 2
+2021-11-19 15:37:45.136  INFO 6960 --- [scheduling-1] t.e.springboot.Service.StockServiceImpl  : Quantité :3 est inferieur a la quantité minimal approuve : 5
